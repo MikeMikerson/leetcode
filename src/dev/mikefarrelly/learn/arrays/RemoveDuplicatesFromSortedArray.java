@@ -44,6 +44,8 @@ import java.util.Arrays;
 public class RemoveDuplicatesFromSortedArray {
     public static void main(String[] args) {
         System.out.println(removeDuplicates(new int[]{0, 0, 1, 1, 1, 2, 2, 3, 3, 4}));
+        System.out.println(removeDuplicates(new int[]{0, 0, 1, 1, 1, 2, 2, 3, 3, 3}));
+        System.out.println(removeDuplicates(new int[]{1, 1, 2}));
     }
 
     private static int removeDuplicates(int[] nums) {
@@ -99,5 +101,19 @@ public class RemoveDuplicatesFromSortedArray {
         }
 
         return ++i;
+    }
+
+    private static int averageRuntime(int[] nums) {
+        int j = 0;
+        int length = 1;
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[j] != nums[i]) {
+                nums[length] = nums[i];
+                length++;
+                j = i;
+            }
+        }
+
+        return length;
     }
 }
