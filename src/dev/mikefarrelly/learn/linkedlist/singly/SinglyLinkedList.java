@@ -45,37 +45,96 @@ package dev.mikefarrelly.learn.linkedlist.singly;
  * https://leetcode.com/explore/learn/card/linked-list/209/singly-linked-list/1290/
  */
 public class SinglyLinkedList {
+    public static void main(String[] args) {
+        SinglyLinkedList singlyLinkedList = new SinglyLinkedList();
+        singlyLinkedList.addAtHead(1);
+        singlyLinkedList.addAtTail(13);
+        singlyLinkedList.addAtTail(14);
+        singlyLinkedList.printAllNodes();
+    }
+
+    public void printAllNodes() {
+        SinglyListNode cur = head;
+        while (cur != null) {
+            System.out.println(cur.val);
+            cur = cur.next;
+        }
+        System.out.println("============");
+    }
+
+    private SinglyListNode head;
+    private SinglyListNode tail;
 
     /**
      * Initialize your data structure here.
      */
     public SinglyLinkedList() {
-
+        this.head = null;
+        this.tail = null;
     }
 
     /**
      * Get the value of the index-th node in the linked list. If the index is invalid, return -1.
      */
     public int get(int index) {
-        return index;
+        if (head == null || tail == null || index < 0) {
+            return -1;
+        }
+
+        SinglyListNode cur = head;
+        int count = 0;
+
+        while (cur.next != null) {
+            if (count == index) {
+                return cur.val;
+            }
+            count++;
+            cur = cur.next;
+        }
+
+        if (count == index) {
+            return cur.val;
+        }
+
+        return -1;
     }
 
     /**
-     * Add a node of value val before the first element of the linked list. After the insertion, the new node will be the first node of the linked list.
+     * Add a node of value val before the first element of the linked list. After the insertion,
+     * the new node will be the first node of the linked list.
      */
     public void addAtHead(int val) {
+        SinglyListNode newHead = new SinglyListNode(val);
+        newHead.next = head;
+        head = newHead;
 
+        // If head is the only item, then it is also the tail
+        if (head.next == null) {
+            tail = head;
+        }
     }
 
     /**
      * Append a node of value val to the last element of the linked list.
      */
     public void addAtTail(int val) {
+        SinglyListNode newTail = new SinglyListNode(val);
+
+        // If tail if null then that means there are no nodes, so set both head and tail to equal the new tail
+        if (tail == null) {
+            head = newTail;
+            tail = newTail;
+        }
+
+        tail.next = newTail;
+        tail = newTail;
 
     }
 
     /**
-     * Add a node of value val before the index-th node in the linked list. If index equals to the length of linked list, the node will be appended to the end of linked list. If index is greater than the length, the node will not be inserted.
+     * Add a node of value val before the index-th node in the linked list. If index equals to the length
+     * of linked list, the node will be appended to the end of linked list.
+     * If index is greater than the length, the node will not be inserted.
      */
     public void addAtIndex(int index, int val) {
 
