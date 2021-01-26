@@ -6,9 +6,9 @@ package dev.mikefarrelly.learn.linkedlist.singly;
  * and next is a pointer/reference to the next node.
  * If you want to use the doubly linked list, you will need one more attribute prev to indicate the previous node in
  * the linked list. Assume all nodes in the linked list are 0-indexed.
- *
+ * <p>
  * Implement the MyLinkedList class:
- *
+ * <p>
  * MyLinkedList() Initializes the MyLinkedList object.
  * int get(int index) Get the value of the indexth node in the linked list. If the index is invalid, return -1.
  * void addAtHead(int val) Add a node of value val before the first element of the linked list.
@@ -18,15 +18,15 @@ package dev.mikefarrelly.learn.linkedlist.singly;
  * If index equals the length of the linked list, the node will be appended to the end of the linked list.
  * If index is greater than the length, the node will not be inserted.
  * void deleteAtIndex(int index) Delete the indexth node in the linked list, if the index is valid.
- *
- *
+ * <p>
+ * <p>
  * Example 1:
  * Input
  * ["MyLinkedList", "addAtHead", "addAtTail", "addAtIndex", "get", "deleteAtIndex", "get"]
  * [[], [1], [3], [1, 2], [1], [1], [1]]
  * Output
  * [null, null, null, null, 2, null, 3]
- *
+ * <p>
  * Explanation
  * MyLinkedList myLinkedList = new MyLinkedList();
  * myLinkedList.addAtHead(1);
@@ -35,35 +35,54 @@ package dev.mikefarrelly.learn.linkedlist.singly;
  * myLinkedList.get(1);              // return 2
  * myLinkedList.deleteAtIndex(1);    // now the linked list is 1->3
  * myLinkedList.get(1);              // return 3
- *
- *
+ * <p>
+ * <p>
  * Constraints:
  * 0 <= index, val <= 1000
  * Please do not use the built-in LinkedList library.
  * At most 2000 calls will be made to get, addAtHead, addAtTail,  addAtIndex and deleteAtIndex.
- *
+ * <p>
  * https://leetcode.com/explore/learn/card/linked-list/209/singly-linked-list/1290/
  */
 public class SinglyLinkedList {
+    private SinglyListNode head;
+    private SinglyListNode tail;
+    private int length = 0;
+
     public static void main(String[] args) {
         SinglyLinkedList singlyLinkedList = new SinglyLinkedList();
         singlyLinkedList.addAtHead(1);
+        singlyLinkedList.printAllNodes();
         singlyLinkedList.addAtTail(13);
+        singlyLinkedList.printAllNodes();
         singlyLinkedList.addAtTail(14);
+        singlyLinkedList.printAllNodes();
+        singlyLinkedList.addAtHead(0);
+        singlyLinkedList.printAllNodes();
+        singlyLinkedList.addAtIndex(0, 100);
+        singlyLinkedList.printAllNodes();
+        singlyLinkedList.addAtIndex(0, 101);
+        singlyLinkedList.printAllNodes();
+        singlyLinkedList.addAtIndex(1, 102);
+        singlyLinkedList.printAllNodes();
+        singlyLinkedList.addAtIndex(5, 103);
+        singlyLinkedList.printAllNodes();
+        singlyLinkedList.addAtIndex(7, 104);
         singlyLinkedList.printAllNodes();
     }
 
     public void printAllNodes() {
         SinglyListNode cur = head;
+        StringBuilder stringBuilder = new StringBuilder();
         while (cur != null) {
-            System.out.println(cur.val);
+            stringBuilder.append(cur.val).append(" -> ");
             cur = cur.next;
         }
+        stringBuilder.append("null");
+        System.out.println(stringBuilder.toString());
+        System.out.println("Size of current list: " + length);
         System.out.println("============");
     }
-
-    private SinglyListNode head;
-    private SinglyListNode tail;
 
     /**
      * Initialize your data structure here.
@@ -112,6 +131,7 @@ public class SinglyLinkedList {
         if (head.next == null) {
             tail = head;
         }
+        length++;
     }
 
     /**
@@ -121,23 +141,65 @@ public class SinglyLinkedList {
         SinglyListNode newTail = new SinglyListNode(val);
 
         // If tail if null then that means there are no nodes, so set both head and tail to equal the new tail
-        if (tail == null) {
+        if (head == null || tail == null) {
             head = newTail;
             tail = newTail;
+            length++;
+            return;
         }
 
         tail.next = newTail;
         tail = newTail;
-
+        length++;
     }
 
     /**
-     * Add a node of value val before the index-th node in the linked list. If index equals to the length
-     * of linked list, the node will be appended to the end of linked list.
+     * Add a node of value val before the index-th node in the linked list.
+     * If index equals to the length of linked list, the node will be appended to the end of linked list.
      * If index is greater than the length, the node will not be inserted.
      */
     public void addAtIndex(int index, int val) {
+        if (index < 0) {
+            // Don't do anything if the index isn't valid
+            return;
+        }
 
+        SinglyListNode newNode = new SinglyListNode(val);
+        if (index == 0) {
+            newNode.next = head;
+            head = newNode;
+            length++;
+            return;
+        }
+
+        if (index == length - 1) {
+            tail.next = newNode;
+            tail = newNode;
+            length++;
+            return;
+        }
+
+        if (head == null) {
+            head = newNode;
+            if (tail == null) {
+                tail = newNode;
+            }
+            length++;
+            return;
+        }
+
+        SinglyListNode cur = head;
+        int count = 0;
+        while (cur.next != null) {
+            if (count + 1 == index) {
+                newNode.next = cur.next;
+                cur.next = newNode;
+                length++;
+                return;
+            }
+            count++;
+            cur = cur.next;
+        }
     }
 
     /**
