@@ -52,23 +52,22 @@ public class SinglyLinkedList {
     public static void main(String[] args) {
         SinglyLinkedList singlyLinkedList = new SinglyLinkedList();
         singlyLinkedList.addAtHead(1);
-        singlyLinkedList.printAllNodes();
         singlyLinkedList.addAtTail(13);
-        singlyLinkedList.printAllNodes();
         singlyLinkedList.addAtTail(14);
-        singlyLinkedList.printAllNodes();
         singlyLinkedList.addAtHead(0);
-        singlyLinkedList.printAllNodes();
         singlyLinkedList.addAtIndex(0, 100);
-        singlyLinkedList.printAllNodes();
         singlyLinkedList.addAtIndex(0, 101);
-        singlyLinkedList.printAllNodes();
         singlyLinkedList.addAtIndex(1, 102);
-        singlyLinkedList.printAllNodes();
         singlyLinkedList.addAtIndex(5, 103);
-        singlyLinkedList.printAllNodes();
         singlyLinkedList.addAtIndex(7, 104);
         singlyLinkedList.printAllNodes();
+        System.out.println(singlyLinkedList.get(4));
+        System.out.println(singlyLinkedList.get(5));
+        System.out.println(singlyLinkedList.get(6));
+        System.out.println(singlyLinkedList.get(7));
+        System.out.println(singlyLinkedList.get(8));
+        System.out.println(singlyLinkedList.get(9));
+        System.out.println(singlyLinkedList.get(-1));
     }
 
     public void printAllNodes() {
@@ -206,7 +205,23 @@ public class SinglyLinkedList {
      * Delete the index-th node in the linked list, if the index is valid.
      */
     public void deleteAtIndex(int index) {
+        if (index < 0 || index > length - 1) {
+            return;
+        }
 
+        if (index == 0) {
+            head = head.next;
+            length--;
+            return;
+        }
+
+        SinglyListNode prev = head;
+        for (int i = 1; i < index; i++) {
+            prev = prev.next;
+        }
+        SinglyListNode del = prev.next;
+        prev.next = del.next;
+        length--;
     }
 
 /**
