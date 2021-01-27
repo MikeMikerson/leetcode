@@ -52,22 +52,62 @@ public class SinglyLinkedList {
     public static void main(String[] args) {
         SinglyLinkedList singlyLinkedList = new SinglyLinkedList();
         singlyLinkedList.addAtHead(1);
-        singlyLinkedList.addAtTail(13);
-        singlyLinkedList.addAtTail(14);
-        singlyLinkedList.addAtHead(0);
-        singlyLinkedList.addAtIndex(0, 100);
-        singlyLinkedList.addAtIndex(0, 101);
-        singlyLinkedList.addAtIndex(1, 102);
-        singlyLinkedList.addAtIndex(5, 103);
-        singlyLinkedList.addAtIndex(7, 104);
         singlyLinkedList.printAllNodes();
-        System.out.println(singlyLinkedList.get(4));
-        System.out.println(singlyLinkedList.get(5));
-        System.out.println(singlyLinkedList.get(6));
-        System.out.println(singlyLinkedList.get(7));
-        System.out.println(singlyLinkedList.get(8));
-        System.out.println(singlyLinkedList.get(9));
-        System.out.println(singlyLinkedList.get(-1));
+        singlyLinkedList.addAtTail(3);
+        singlyLinkedList.printAllNodes();
+        singlyLinkedList.addAtIndex(1, 2);
+        singlyLinkedList.printAllNodes();
+//
+//        // 2
+        System.out.println(singlyLinkedList.get(1));
+        singlyLinkedList.deleteAtIndex(1);
+//
+//        // 3
+        System.out.println(singlyLinkedList.get(1));
+
+        // ============================================================
+        // ============================================================
+        // ============================================================
+
+        /*
+         * ["MyLinkedList","addAtHead","addAtHead","addAtHead","addAtIndex","deleteAtIndex","addAtHead","addAtTail","get","addAtHead","addAtIndex","addAtHead"]
+         * [[],[7],[2],[1],[3,0],[2],[6],[4],[4],[4],[5,0],[6]]
+         */
+//        singlyLinkedList.addAtHead(7);
+//        singlyLinkedList.printAllNodes();
+//        singlyLinkedList.addAtHead(2);
+//        singlyLinkedList.printAllNodes();
+//        singlyLinkedList.addAtHead(1);
+//        singlyLinkedList.printAllNodes();
+//        singlyLinkedList.addAtIndex(3, 0);
+//        singlyLinkedList.printAllNodes();
+//        singlyLinkedList.deleteAtIndex(2);
+//        singlyLinkedList.printAllNodes();
+//        singlyLinkedList.addAtHead(6);
+//        singlyLinkedList.printAllNodes();
+//        singlyLinkedList.addAtTail(4);
+//        singlyLinkedList.printAllNodes();
+//
+//         should be 4
+//        System.out.println(singlyLinkedList.get(4));
+//        singlyLinkedList.addAtHead(4);
+//        singlyLinkedList.addAtIndex(5, 0);
+//        singlyLinkedList.addAtHead(6);
+
+        // ============================================================
+        // ============================================================
+        // ============================================================
+
+        /*
+         * ["MyLinkedList","addAtIndex","addAtIndex","addAtIndex","get"]
+         * [[],[0,10],[0,20],[1,30],[0]]
+         */
+//        singlyLinkedList.addAtIndex(0, 10);
+//        singlyLinkedList.addAtIndex(0, 20);
+//        singlyLinkedList.addAtIndex(1, 30);
+
+        // 20
+//        System.out.println(singlyLinkedList.get(0));
     }
 
     public void printAllNodes() {
@@ -168,10 +208,13 @@ public class SinglyLinkedList {
             newNode.next = head;
             head = newNode;
             length++;
+            if (tail == null) {
+                tail = newNode;
+            }
             return;
         }
 
-        if (index == length - 1) {
+        if (index == length) {
             tail.next = newNode;
             tail = newNode;
             length++;
@@ -222,15 +265,18 @@ public class SinglyLinkedList {
         SinglyListNode del = prev.next;
         prev.next = del.next;
         length--;
+
+        if (length == index) {
+            tail = prev;
+        }
     }
 
-/**
- * Your MyLinkedList object will be instantiated and called as such:
- * MyLinkedList obj = new MyLinkedList();
- * int param_1 = obj.get(index);
- * obj.addAtHead(val);
- * obj.addAtTail(val);
- * obj.addAtIndex(index,val);
- * obj.deleteAtIndex(index);
- */
+    private static class SinglyListNode {
+        int val;
+        SinglyListNode next;
+
+        SinglyListNode(int x) {
+            val = x;
+        }
+    }
 }
