@@ -6,29 +6,29 @@ package dev.mikefarrelly.learn.linkedlist.twopointer;
  * following the next pointer. Internally, pos is used to denote the index of the node that tail's next pointer is
  * connected to. Note that pos is not passed as a parameter.
  * Notice that you should not modify the linked list.
- *
+ * <p>
  * Example 1:
  * Input: head = [3,2,0,-4], pos = 1
  * Output: tail connects to node index 1
  * Explanation: There is a cycle in the linked list, where tail connects to the second node.
- *
+ * <p>
  * Example 2:
  * Input: head = [1,2], pos = 0
  * Output: tail connects to node index 0
  * Explanation: There is a cycle in the linked list, where tail connects to the first node.
- *
+ * <p>
  * Example 3:
  * Input: head = [1], pos = -1
  * Output: no cycle
  * Explanation: There is no cycle in the linked list.
- *
+ * <p>
  * Constraints:
  * The number of the nodes in the list is in the range [0, 104].
  * -105 <= Node.val <= 105
  * pos is -1 or a valid index in the linked-list.
- *
+ * <p>
  * Follow up: Can you solve it using O(1) (i.e. constant) memory?
- *
+ * <p>
  * https://leetcode.com/explore/learn/card/linked-list/214/two-pointer-technique/1214/
  */
 public class LinkedListCycleII {
@@ -48,18 +48,6 @@ public class LinkedListCycleII {
         anotherNode.next.next.next = new ListNode(4);
         anotherNode.next.next.next.next = new ListNode(5);
         anotherNode.next.next.next.next.next = anotherNode;
-
-        /*
-         * 1 -> 2 -> 3 -> 4 -> 5
-         * |___________________|
-         * s    f
-         *      s         f
-         * f         s
-         *           f    s
-         *                    sf
-         * break out of loop
-         * s                   f
-         */
 
         ListNode noCycleNod = new ListNode(100);
         noCycleNod.next = new ListNode(2);
@@ -82,6 +70,7 @@ public class LinkedListCycleII {
     private static class ListNode {
         int val;
         ListNode next;
+
         ListNode(int val) {
             this.val = val;
         }
@@ -91,11 +80,11 @@ public class LinkedListCycleII {
         if (head == null || head.next == null) {
             return null;
         }
-        
+
         ListNode slow = head;
         ListNode fast = head;
         boolean isCycle = false;
-        
+
         while (slow != null && fast != null && fast.next != null) {
             slow = slow.next;
             fast = fast.next.next;
@@ -105,11 +94,11 @@ public class LinkedListCycleII {
                 break;
             }
         }
-        
+
         if (!isCycle) {
             return null;
         }
-        
+
         slow = head;
         while (slow != fast) {
             slow = slow.next;
@@ -117,5 +106,53 @@ public class LinkedListCycleII {
         }
 
         return slow;
+    }
+
+    // Also seems to be the average runtime
+    public ListNode bestRuntime(ListNode head) {
+        ListNode fast = head, slow = head;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+            if (slow == fast) {
+                break;
+            }
+        }
+
+        if (fast == null || fast.next == null) {
+            return null;
+        }
+
+        slow = head;
+
+        while (slow != fast) {
+            slow = slow.next;
+            fast = fast.next;
+        }
+
+        return slow;
+    }
+
+    public ListNode bestMemory(ListNode head) {
+        if (head == null || head.next == null)
+            return null;
+
+        ListNode slow = head;
+        ListNode fast = head;
+
+        while (fast != null && fast.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+            // circle detected
+            if (fast == slow) {
+                fast = head;
+                while (slow != fast) {
+                    fast = fast.next;
+                    slow = slow.next;
+                }
+                return fast;
+            }
+        }
+        return null; // no circle
     }
 }
