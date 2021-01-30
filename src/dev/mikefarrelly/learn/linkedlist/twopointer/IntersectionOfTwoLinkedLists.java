@@ -96,4 +96,138 @@ public class IntersectionOfTwoLinkedLists {
 
         return nodeA;
     }
+
+    public ListNode bestRuntime(ListNode headA, ListNode headB) {
+        int lenA = 0;
+        int lenB = 0;
+        ListNode tempA = headA;
+        ListNode tempB = headB;
+        while (tempA != null) {
+            lenA++;
+            tempA = tempA.next;
+        }
+        while (tempB != null) {
+            lenB++;
+            tempB = tempB.next;
+        }
+        int d = lenB - lenA;
+        if (lenA > lenB) {
+            ListNode temp = headA;
+            headA = headB;
+            headB = temp;
+            d = lenA - lenB;
+        }
+        for (int i = 0; i <= d - 1; i++)
+            headB = headB.next;
+
+        while (lenA > 0) {
+            if (headA == headB)
+                break;
+            else {
+                headA = headA.next;
+                headB = headB.next;
+            }
+        }
+        return headA;
+    }
+
+    public ListNode bestMemory(ListNode headA, ListNode headB) {
+        if (headA == null || headB == null) return null;
+        ListNode dummyA = headA;
+        ListNode dummyB = headB;
+        int countA = 1;
+        int countB = 1;
+
+        while (headA.next != null || headB.next != null) {
+            if (headA.next != null) {
+                countA++;
+                headA = headA.next;
+            }
+            if (headB.next != null) {
+                countB++;
+                headB = headB.next;
+            }
+        }
+        if (countA - countB > 0) {
+            for (int i = countA - countB; i > 0; i--) {
+                dummyA = dummyA.next;
+            }
+        } else {
+            for (int i = countB - countA; i > 0; i--) {
+                dummyB = dummyB.next;
+            }
+        }
+
+
+        while (dummyA != dummyB) {
+            dummyA = dummyA.next;
+            dummyB = dummyB.next;
+        }
+
+        return dummyA;
+    }
+
+    public ListNode averageMemory(ListNode headA, ListNode headB) {
+        if (headA == null || headB == null) {
+            return null;
+        }
+
+        ListNode listA = headA, listB = headB;
+
+        while (listA.next != null) {
+            listA = listA.next;
+        }
+        while (listB.next != null) {
+            listB = listB.next;
+        }
+
+        if (listA != listB) {
+            return null;
+        }
+
+        listA = headA;
+        listB = headB;
+
+        while (true) {
+            if (listA == listB) {
+                return listA;
+            }
+
+            if (listA == null) {
+                listA = headB;
+            } else {
+                listA = listA.next;
+            }
+
+            if (listB == null) {
+                listB = headA;
+            } else {
+                listB = listB.next;
+            }
+        }
+    }
+
+    // https://www.youtube.com/watch?v=IpBfg9d4dmQ
+    public ListNode cleanSolutionFromYoutube(ListNode headA, ListNode headB) {
+        if (headA == null || headB == null) return null;
+
+        ListNode aPointer = headA;
+        ListNode bPointer = headB;
+
+        while (aPointer != bPointer) {
+            if (aPointer == null) {
+                aPointer = headB;
+            } else {
+                aPointer = aPointer.next;
+            }
+
+            if (bPointer == null) {
+                bPointer = headA;
+            } else {
+                bPointer = bPointer.next;
+            }
+        }
+
+        return aPointer;
+    }
 }
