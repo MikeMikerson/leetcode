@@ -112,4 +112,25 @@ public class RemoveNthNodeFromEndOfList {
         slow.next = slow.next.next;
         return start.next;
     }
+
+    // https://www.youtube.com/watch?v=XtYEEvrhemI
+    public ListNode youtubeAnswer(ListNode head, int n) {
+        ListNode dummyHead = new ListNode(0);
+        dummyHead.next = head;
+        
+        ListNode slow = dummyHead;
+        ListNode fast = dummyHead;
+
+        for (int i = 1; i <= n+1; i++) {
+            fast = fast.next;
+        }
+
+        while (fast != null) {
+            slow = slow.next;
+            fast = fast.next;
+        }
+
+        slow.next = slow.next.next;
+        return dummyHead.next;
+    }
 }
