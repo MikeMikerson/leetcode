@@ -21,7 +21,7 @@ package dev.mikefarrelly.learn.linkedlist.twopointer;
  * - 1 <= sz <= 30
  * - 0 <= Node.val <= 100
  * - 1 <= n <= sz
- *
+ * <p>
  * https://leetcode.com/explore/learn/card/linked-list/214/two-pointer-technique/1296/
  */
 public class RemoveNthNodeFromEndOfList {
@@ -29,7 +29,8 @@ public class RemoveNthNodeFromEndOfList {
         int val;
         ListNode next;
 
-        ListNode() {}
+        ListNode() {
+        }
 
         ListNode(int val) {
             this.val = val;
@@ -73,5 +74,42 @@ public class RemoveNthNodeFromEndOfList {
 
         cur.next = cur.next.next;
         return head;
+    }
+
+    public ListNode bestRuntime(ListNode head, int n) {
+        ListNode start = new ListNode(0);
+        ListNode first = start;
+        ListNode second = start;
+        start.next = head;
+
+        int i = 0;
+        while (first != null) {
+            if (i > n)
+                second = second.next;
+            first = first.next;
+            i++;
+        }
+
+        second.next = second.next.next;
+        return start.next;
+    }
+
+    public ListNode bestMemory(ListNode head, int n) {
+        ListNode start = new ListNode(0);
+        ListNode slow = start, fast = start;
+        slow.next = head;
+
+        //Move fast in front so that the gap between slow and fast becomes n
+        for (int i = 1; i <= n + 1; i++) {
+            fast = fast.next;
+        }
+        //Move fast to the end, maintaining the gap
+        while (fast != null) {
+            slow = slow.next;
+            fast = fast.next;
+        }
+        //Skip the desired node
+        slow.next = slow.next.next;
+        return start.next;
     }
 }
