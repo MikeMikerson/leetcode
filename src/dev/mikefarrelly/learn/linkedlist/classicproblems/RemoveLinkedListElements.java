@@ -17,6 +17,11 @@ public class RemoveLinkedListElements {
         ListNode(int val) {
             this.val = val;
         }
+
+        ListNode(int val, ListNode next) {
+            this.val = val;
+            this.next = next;
+        }
     }
 
     public static void main(String[] args) {
@@ -48,5 +53,63 @@ public class RemoveLinkedListElements {
         }
 
         return head.next;
+    }
+
+    public ListNode bestRuntime(ListNode head, int val) {
+        head = bestRuntimeSeekHead(head, val);
+        if (head == null)
+            return null;
+        ListNode prev = head;
+        ListNode curr = head.next;
+        while (curr != null) {
+            if (curr.val == val) {
+                prev.next = curr.next;
+            } else {
+                prev = prev.next;
+            }
+            curr = curr.next;
+        }
+        return head;
+    }
+
+    public ListNode bestRuntimeSeekHead(ListNode head, int val) {
+        while (head != null && head.val == val) {
+            head = head.next;
+        }
+        return head;
+    }
+
+    public ListNode bestMemory(ListNode head, int val) {
+        if (head == null) return null;
+        ListNode dummy = new ListNode(0, head);
+        ListNode curr = dummy, next = dummy.next;
+        while (curr != null) {
+            next = curr.next;
+            if (next != null && next.val == val) {
+                while (next != null && next.val == val) {
+                    next = next.next;
+                }
+                curr.next = next;
+            }
+            curr = next;
+        }
+        return dummy.next;
+    }
+
+    public ListNode averageMemory(ListNode head, int val) {
+        if (head == null) return null;
+        ListNode rt = new ListNode(0), pre, now = head;
+        rt.next = head;
+        pre = rt;
+        while (now != null) {
+            if (now.val == val) {
+                pre.next = now.next;
+                now = now.next;
+            } else {
+                pre = now;
+                now = now.next;
+            }
+        }
+        return rt.next;
     }
 }
