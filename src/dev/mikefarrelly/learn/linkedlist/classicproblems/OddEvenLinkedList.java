@@ -85,6 +85,14 @@ public class OddEvenLinkedList {
         ListNode(int val) {
             this.val = val;
         }
+
+        ListNode() {
+        }
+
+        ListNode(int val, ListNode next) {
+            this.val = val;
+            this.next = next;
+        }
     }
 
     private static void printNodes(ListNode head) {
@@ -97,5 +105,67 @@ public class OddEvenLinkedList {
         stringBuilder.append("null");
         System.out.println(stringBuilder.toString());
         System.out.println("============");
+    }
+
+    public ListNode bestRuntime(ListNode head) {
+        if (head == null) return null;
+
+        ListNode dummyHeadOdd = new ListNode();
+        ListNode dummyHeadEven = new ListNode();
+        dummyHeadOdd.next = head;
+        ListNode tailOdd = head;
+        ListNode tailEven = null;
+        ListNode cur = null;
+        if (head.next != null) {
+            dummyHeadEven.next = head.next;
+            tailEven = dummyHeadEven.next;
+            cur = tailEven.next;
+        }
+
+        while (cur != null) {
+            tailOdd.next = cur;
+            tailEven.next = cur.next;
+            if (cur.next != null) {
+                cur = cur.next.next;
+            } else {
+                cur = null;
+            }
+            tailOdd = tailOdd.next;
+            tailEven = tailEven.next;
+        }
+
+        tailOdd.next = dummyHeadEven.next;
+        return dummyHeadOdd.next;
+    }
+
+    public ListNode bestMemory(ListNode head) {
+        if (head == null) return null;
+
+        ListNode odd = head, even = odd.next, evenHead = even;
+        while (even != null && even.next != null) {
+            odd.next = even.next;
+            odd = odd.next;
+
+            even.next = odd.next;
+            even = even.next;
+        }
+        odd.next = evenHead;
+        return head;
+    }
+
+    public ListNode averageMemory(ListNode head) {
+        if (head == null) {
+            return null;
+        }
+        ListNode odd = head, even = odd.next, evenHead = even;
+        while (even != null && even.next != null) {
+            odd.next = even.next;
+            odd = odd.next;
+            even.next = odd.next;
+            even = even.next;
+        }
+        odd.next = evenHead;
+        return head;
+
     }
 }
