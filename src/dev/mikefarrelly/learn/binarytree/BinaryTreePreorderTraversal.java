@@ -73,14 +73,19 @@ public class BinaryTreePreorderTraversal {
     }
 
     private static void traverseNode(TreeNode cur, List<Integer> preorderNodes) {
+        // Add here for a preorder traversal
         preorderNodes.add(cur.val);
         if (cur.left != null) {
             traverseNode(cur.left, preorderNodes);
         }
 
+        // Add here for an inorder traversal
+
         if (cur.right != null) {
             traverseNode(cur.right, preorderNodes);
         }
+
+        // Add here for a postorder traversal
     }
 
     public List<Integer> bestSolutionIterative(TreeNode root) {
