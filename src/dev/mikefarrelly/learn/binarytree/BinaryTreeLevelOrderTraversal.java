@@ -48,32 +48,23 @@ public class BinaryTreeLevelOrderTraversal {
         Queue<TreeNode> queue = new ArrayDeque<>();
         queue.add(root);
 
-        List<Integer> tempList = new ArrayList<>();
-        tempList.add(root.val);
-        levelOrderTree.add(tempList);
-
         while (!queue.isEmpty()) {
             List<Integer> curList = new ArrayList<>();
             layerSize = queue.size();
 
             for (int i = 0; i < layerSize; i++) {
                 TreeNode cur = queue.remove();
+                curList.add(cur.val);
                 if (cur.left != null) {
-                    curList.add(cur.left.val);
                     queue.add(cur.left);
                 }
 
                 if (cur.right != null) {
-                    curList.add(cur.right.val);
                     queue.add(cur.right);
                 }
             }
 
-            // The last iteration will be empty so check that's it's empty to prevent an emptly
-            // list as the last element
-            if (!curList.isEmpty()) {
-                levelOrderTree.add(curList);
-            }
+            levelOrderTree.add(curList);
         }
 
         return levelOrderTree;
