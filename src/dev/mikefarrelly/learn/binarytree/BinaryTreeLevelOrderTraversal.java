@@ -1,10 +1,7 @@
 package dev.mikefarrelly.learn.binarytree;
 
 import javax.swing.tree.TreeNode;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 /**
  * Given a binary tree, return the level order traversal of its nodes' values. (ie, from left to right, level by level).
@@ -29,7 +26,7 @@ import java.util.Queue;
  * https://leetcode.com/explore/learn/card/data-structure-tree/134/traverse-a-tree/931/
  */
 public class BinaryTreeLevelOrderTraversal {
-    public static void main (String[] args) {
+    public static void main(String[] args) {
         TreeNode root = new TreeNode(3);
         root.left = new TreeNode(9);
         root.left.left = new TreeNode(1);
@@ -80,6 +77,79 @@ public class BinaryTreeLevelOrderTraversal {
         }
 
         return levelOrderTree;
+    }
+
+    public List<List<Integer>> bestRuntime(TreeNode root) {
+        Deque<TreeNode> d = new LinkedList<>();
+        List<List<Integer>> result = new ArrayList<>();
+        if (root == null) {
+            return result;
+        }
+        d.addLast(root);
+        while (!d.isEmpty()) {
+            int size = d.size();
+            List<Integer> l = new ArrayList<>();
+            for (int i = 0; i < size; i++) {
+                TreeNode t = d.pollFirst();
+                l.add(t.val);
+                if (t.left != null) {
+                    d.addLast(t.left);
+                }
+                if (t.right != null) {
+                    d.addLast(t.right);
+                }
+            }
+            result.add(l);
+        }
+        return result;
+    }
+
+    public List<List<Integer>> bestMemory(TreeNode root) {
+        List<List<Integer>> res = new LinkedList<>();
+        if (root == null) return res;
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            List<Integer> cur = new LinkedList<>();
+            for (int i = 0; i < size; i++) {
+                TreeNode node = queue.poll();
+                cur.add(node.val);
+                if (node.left != null) {
+                    queue.offer(node.left);
+                }
+                if (node.right != null) {
+                    queue.offer(node.right);
+                }
+            }
+            res.add(cur);
+        }
+        return res;
+    }
+
+    public List<List<Integer>> leetCodeAnswer(TreeNode root) {
+        List<List<Integer>> ans = new ArrayList<>();
+        Queue<TreeNode> q = new LinkedList<>();
+        if (root != null) {
+            q.offer(root);
+        }
+        TreeNode cur;
+        while (!q.isEmpty()) {
+            int size = q.size();
+            List<Integer> subAns = new LinkedList<Integer>();
+            for (int i = 0; i < size; ++i) {        // traverse nodes in the same level
+                cur = q.poll();
+                subAns.add(cur.val);                // visit the root
+                if (cur.left != null) {
+                    q.offer(cur.left);              // push left child to queue if it is not null
+                }
+                if (cur.right != null) {
+                    q.offer(cur.right);             // push right child to queue if it is not null
+                }
+            }
+            ans.add(subAns);
+        }
+        return ans;
     }
 
     private static class TreeNode {
