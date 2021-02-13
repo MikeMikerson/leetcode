@@ -49,32 +49,67 @@ package dev.mikefarrelly.learn.queue;
  * https://leetcode.com/explore/learn/card/queue-stack/228/first-in-first-out-data-structure/1337/
  */
 public class DesignCircularQueue {
-    private int k;
+    private int maxSize;
 
+    /**
+     * @param k the max size of the queue
+     */
     public DesignCircularQueue(int k) {
-        this.k = k;
+        maxSize = k;
     }
 
+    /**
+     * Inserts an element into the circular queue. Return true if the operation is successful
+     *
+     * @param value the new front
+     * @return true if the operation is successful
+     */
     public boolean enQueue(int value) {
         return true;
     }
 
+
+    /**
+     * Deletes an element from the circular queue
+     *
+     * @return true if the operation is successful
+     */
     public boolean deQueue() {
         return true;
     }
 
+    /**
+     * Gets the front item from the queue. If the queue is empty, returns -1.
+     *
+     * @return the front item. If the queue is empty, returns -1
+     */
     public int Front() {
         return 0;
     }
 
+    /**
+     * Gets the last item from the queue. If the queue is empty, returns -1.
+     *
+     * @return the rear item. If the queue is empty, returns -1.
+     */
     public int Rear() {
         return 0;
     }
 
+    /**
+     * Checks whether the circular queue is empty or not.
+     * 
+     * @return true if the circular queue is empty
+     */
     public boolean isEmpty() {
         return true;
     }
 
+    /**
+     * Checks whether the circular is full or not.
+     *
+     * @return true if the circular queue is full
+     */
     public boolean isFull() {
         return true;
     }
