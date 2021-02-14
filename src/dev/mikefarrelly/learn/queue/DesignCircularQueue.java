@@ -1,5 +1,8 @@
 package dev.mikefarrelly.learn.queue;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Design your implementation of the circular queue. The circular queue is a linear data structure in which the
  * operations are performed based on FIFO (First In First Out) principle and the last position is connected back
@@ -49,12 +52,34 @@ package dev.mikefarrelly.learn.queue;
  * https://leetcode.com/explore/learn/card/queue-stack/228/first-in-first-out-data-structure/1337/
  */
 public class DesignCircularQueue {
+    public static void main(String[] args) {
+        DesignCircularQueue queue = new DesignCircularQueue(3);
+        System.out.println(queue.enQueue(1));
+        System.out.println(queue.enQueue(2));
+        System.out.println(queue.enQueue(3));
+        System.out.println(queue.enQueue(4));
+        System.out.println(queue.Rear());
+        System.out.println(queue.isFull());
+        System.out.println(queue.deQueue());
+        System.out.println(queue.enQueue(4));
+
+        System.out.println(queue.queue);
+    }
+
     private int maxSize;
+    private int back;
+    private List<Integer> queue;
 
     /**
+     * Initialize the list with a size of k.
+     *
      * @param k the max size of the queue
      */
     public DesignCircularQueue(int k) {
+        if (k < 1) {
+            throw new IllegalArgumentException("Only values greater than one is allowed");
+        }
+        queue = new ArrayList<>(k);
         maxSize = k;
     }
 
@@ -65,6 +90,18 @@ public class DesignCircularQueue {
      * @return true if the operation is successful
      */
     public boolean enQueue(int value) {
+        if (queue.size() == maxSize) {
+            System.out.println("There is no room in the queue");
+            return false;
+        }
+
+        queue.add(value);
+        if (isEmpty()) {
+            back = 0;
+        } else {
+            back = queue.size()-1;
+        }
+
         return true;
     }
 
@@ -75,6 +112,13 @@ public class DesignCircularQueue {
      * @return true if the operation is successful
      */
     public boolean deQueue() {
+        if (isEmpty()) {
+            System.out.println("There is nothing to remove from the queue");
+            return false;
+        }
+
+        back--;
+        queue.remove(0);
         return true;
     }
 
@@ -84,7 +128,8 @@ public class DesignCircularQueue {
      * @return the front item. If the queue is empty, returns -1
      */
     public int Front() {
-        return 0;
+        int front = 0;
+        return isEmpty() ? -1 : queue.get(front);
     }
 
     /**
@@ -93,16 +138,16 @@ public class DesignCircularQueue {
      * @return the rear item. If the queue is empty, returns -1.
      */
     public int Rear() {
-        return 0;
+        return isEmpty() ? -1 : queue.get(back);
     }
 
     /**
      * Checks whether the circular queue is empty or not.
-     * 
+     *
      * @return true if the circular queue is empty
      */
     public boolean isEmpty() {
-        return true;
+        return queue.isEmpty();
     }
 
     /**
@@ -111,6 +156,6 @@ public class DesignCircularQueue {
      * @return true if the circular queue is full
      */
     public boolean isFull() {
-        return true;
+        return queue.size() == maxSize;
     }
 }
