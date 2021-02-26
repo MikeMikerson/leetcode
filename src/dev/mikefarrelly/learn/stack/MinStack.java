@@ -2,6 +2,7 @@ package dev.mikefarrelly.learn.stack;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 /**
  * Design a stack that supports push, pop, top, and retrieving the minimum element in constant time.
@@ -47,62 +48,33 @@ public class MinStack {
         minStack.getMin(); // return -2
     }
 
-    private List<Integer> stack;
+    // Each integer array will consist of two elements, the first being the item pushed in
+    // and the second being the minimum value at the time the element was pushed.
+    // This way, the top element will always have a valid minimum value, even after pop is called.
+    private Stack<int[]> stack;
 
-    /** initialize your data structure here. */
     public MinStack() {
-        stack = new ArrayList<>();
+        stack = new Stack<>();
     }
 
     public void push(int x) {
-        /*
-         * This should add an element to the top of the stack, i.e. the last item in a dynamic array
-         * Example:
-         * [1,2,3]
-         * stack.push(4)
-         * [1,2,3,4]
-         */
-        stack.add(x);
+        if (stack.isEmpty()) {
+            stack.push(new int[]{x, x});
+        } else {
+            int curMin = stack.peek()[1];
+            stack.push(new int[]{x, Math.min(x, curMin)});
+        }
     }
 
     public void pop() {
-        /*
-         * This should remove an element from the top of the stack, i.e. the last item in a dynamic array
-         * Example:
-         * [1,2,3,4]
-         * stack.pop()
-         * [1,2,3]
-         */
-        // For the sake of this problem, this method will never be called on an empty stack so
-        // there's no need to check it.
-        stack.remove(stack.size()-1);
+        stack.pop();
     }
 
     public int top() {
-        /*
-         * Simply get the last element in the array
-         * Example:
-         * [1,2,3]
-         * stack.top() // return 3
-         */
-        return stack.get(stack.size()-1);
+        return stack.peek()[0];
     }
 
     public int getMin() {
-        /*
-         * Return the minimum element in the stack
-         * Example:
-         * [1,2,3] // 1
-         * [-10,9,10] // -10
-         */
-        int min = Integer.MAX_VALUE;
-
-        for (int cur : stack) {
-            if (cur < min) {
-                min = cur;
-            }
-        }
-
-        return min;
+        return stack.peek()[1];
     }
 }
