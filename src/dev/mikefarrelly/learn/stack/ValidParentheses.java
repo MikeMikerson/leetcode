@@ -1,9 +1,6 @@
 package dev.mikefarrelly.learn.stack;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * Given a string s containing just the characters '(', ')', '{', '}', '[' and ']',
@@ -70,7 +67,7 @@ public class ValidParentheses {
         Stack<Character> stack = new Stack<>();
         List<Character> openingBrackets = createOpeningBracketList();
         List<Character> closingBrackets = createClosingBracketList();
-        HashMap<Character, Character> map = createMatchingMap();
+        Map<Character, Character> map = createMatchingMap();
 
         for (char c : s.toCharArray()) {
             if (stack.isEmpty() && closingBrackets.contains(c)) {
@@ -108,11 +105,58 @@ public class ValidParentheses {
         return list;
     }
 
-    private static HashMap<Character, Character> createMatchingMap() {
+    private static Map<Character, Character> createMatchingMap() {
         HashMap<Character, Character> map = new HashMap<>();
         map.put(')', '(');
         map.put('}', '{');
         map.put(']', '[');
         return map;
+    }
+
+    public boolean bestMemory(String s) {
+        if(s.length() == 0) return true;
+        if(s.length() %2 != 0) return false;
+        Stack<Character> stack = new Stack<>();
+        for(char c : s.toCharArray()){
+            if(c == '(' || c == '[' || c == '{'){
+                stack.push(c);
+            }else {
+                if(stack.isEmpty()){
+                    return false;
+                }else if(c ==')' && stack.peek()=='('){
+                    stack.pop();
+                }else if(c ==']' && stack.peek()=='['){
+                    stack.pop();
+                }else if(c =='}' && stack.peek()=='{'){
+                    stack.pop();
+                } else{
+                    return false;
+                }
+            }
+        }
+        return (stack.isEmpty());
+    }
+
+    public boolean bestRuntime(String s) {
+        Map<Character,Character> map = new HashMap<Character,Character>();
+        map.put('}','{');
+        map.put(')','(');
+        map.put(']','[');
+        char ca[] = s.toCharArray();
+        Stack<Character> stack = new Stack<Character>();
+        for(char c:ca){
+            if(map.containsKey(c)){
+                if(stack.isEmpty()){
+                    return false;
+                }
+                Character pop = stack.pop();
+                if(pop==null||!pop.equals(map.get(c))){
+                    return false;
+                }
+            }else{
+                stack.push(c);
+            }
+        }
+        return stack.isEmpty();
     }
 }
