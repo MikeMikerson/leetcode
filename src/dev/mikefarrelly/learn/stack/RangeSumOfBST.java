@@ -1,5 +1,8 @@
 package dev.mikefarrelly.learn.stack;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 /**
  * Given the root node of a binary search tree, return the sum of values of all
  * nodes with a value in the range [low, high].
@@ -65,6 +68,35 @@ public class RangeSumOfBST {
         }
 
         return curSum;
+    }
+
+    public int bestRuntime(TreeNode root, int low, int high) {
+        if (root == null) return 0;
+        int v = root.val;
+
+        if (v < low) return rangeSumBST(root.right, low, high);
+        else if (v > high) return rangeSumBST(root.left, low, high);
+        else return v + rangeSumBST(root.left, low, high) + rangeSumBST(root.right, low, high);
+    }
+
+    public int bestMemory(TreeNode root, int low, int high) {
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        int result = 0;
+        while (!queue.isEmpty()) {
+            TreeNode node = queue.poll();
+            if (node == null) continue;
+            if (node.val < low) {
+                queue.offer(node.right);
+            } else if (node.val > high) {
+                queue.offer(node.left);
+            } else {
+                result += node.val;
+                queue.offer(node.left);
+                queue.offer(node.right);
+            }
+        }
+        return result;
     }
 
     private static class TreeNode {
