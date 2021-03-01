@@ -33,6 +33,29 @@ public class FindAllTheLonelyNodes {
         }
     }
 
+    public List<Integer> bestMemory(TreeNode root) {
+        List<Integer> result = new ArrayList<Integer>();
+
+        bestMemoryHelper(root, result);
+
+        return result;
+    }
+
+    public void bestMemoryHelper(TreeNode root, List<Integer> result){
+        if(root != null){
+            if(root.left != null && root.right == null){
+                result.add(root.left.val);
+            }
+
+            if(root.right != null && root.left == null){
+                result.add(root.right.val);
+            }
+
+            bestMemoryHelper(root.left, result);
+            bestMemoryHelper(root.right, result);
+        }
+    }
+
     public class TreeNode {
         int val;
         TreeNode left;
