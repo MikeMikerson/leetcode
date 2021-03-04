@@ -1,5 +1,8 @@
 package dev.mikefarrelly.learn.binarytree;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 /**
  * Given the root of a binary tree, check whether it is a mirror of itself (i.e., symmetric around its center).
  *
@@ -28,22 +31,22 @@ public class SymmetricTree {
         node.left.right = new TreeNode(4);
         node.right.right = new TreeNode(3);
         node.right.left = new TreeNode(4);
-        System.out.println(isSymmetric(node));
+        System.out.println(isSymmetricIterative(node));
 
         TreeNode newNode = new TreeNode(1);
         newNode.left = new TreeNode(2);
         newNode.right = new TreeNode(2);
         newNode.left.right = new TreeNode(3);
         newNode.right.right = new TreeNode(3);
-        System.out.println(isSymmetric(newNode));
+        System.out.println(isSymmetricIterative(newNode));
 
         TreeNode another = new TreeNode(1);
         another.left = new TreeNode(0);
-        System.out.println(isSymmetric(another));
+        System.out.println(isSymmetricIterative(another));
 
         TreeNode yetAnother = new TreeNode(1);
         yetAnother.right = new TreeNode(2);
-        System.out.println(isSymmetric(yetAnother));
+        System.out.println(isSymmetricIterative(yetAnother));
 
     }
 
@@ -71,6 +74,44 @@ public class SymmetricTree {
         return curLeft.val == curRight.val
                 && isSymmetric(curLeft.left, curRight.right)
                 && isSymmetric(curLeft.right, curRight.left);
+    }
+
+    private static boolean isSymmetricIterative(TreeNode root) {
+        if (root == null) {
+            return false;
+        }
+
+        if (root.left == null && root.right == null) {
+            return true;
+        }
+
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root.left);
+        queue.add(root.right);
+
+        while (!queue.isEmpty()) {
+            TreeNode curLeft = queue.poll();
+            TreeNode curRight = queue.poll();
+
+            if (curLeft == null && curRight == null) {
+                continue;
+            }
+
+            if (curLeft == null || curRight == null) {
+                return false;
+            }
+
+            if (curLeft.val != curRight.val) {
+                return false;
+            }
+
+            queue.add(curLeft.left);
+            queue.add(curRight.right);
+            queue.add(curLeft.right);
+            queue.add(curRight.left);
+        }
+
+        return true;
     }
 
     private static class TreeNode {
