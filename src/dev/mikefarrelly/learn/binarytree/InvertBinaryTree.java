@@ -43,15 +43,8 @@ public class InvertBinaryTree {
             return root;
         }
 
-        TreeNode temp = root.left;
-        root.left = root.right;
-        root.right = temp;
-
         Queue<TreeNode> queue = new LinkedList<>();
-        queue.offer(root.left);
-        swapNodes(queue);
-
-        queue.add(root.right);
+        queue.offer(root);
         swapNodes(queue);
 
         return root;
@@ -99,5 +92,23 @@ public class InvertBinaryTree {
             this.left = left;
             this.right = right;
         }
+    }
+
+    public TreeNode bestMemory(TreeNode root) {
+        if(root!=null)
+            bestMemoryInvert(root);
+
+        return root;
+    }
+
+    private void bestMemoryInvert(TreeNode node){
+        if(node==null)
+            return;
+
+        TreeNode temp = node.left;
+        node.left = node.right;
+        node.right = temp;
+        bestMemoryInvert(node.left);
+        bestMemoryInvert(node.right);
     }
 }
