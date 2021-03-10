@@ -1,5 +1,8 @@
 package dev.mikefarrelly.learn.linkedlist.classicproblems;
 
+import dev.mikefarrelly.node.ListNode;
+import dev.mikefarrelly.utils.NodeUtils;
+
 import java.util.ArrayList;
 
 /**
@@ -15,36 +18,45 @@ import java.util.ArrayList;
  * https://leetcode.com/explore/learn/card/linked-list/219/classic-problems/1205/
  */
 public class ReverseLinkedList {
-    private static class ListNode {
-        int val;
-        ListNode next;
+    public static void main(String[] args) {
+        ListNode node = new ListNode(1);
+        node.next = new ListNode(2);
+        node.next.next = new ListNode(3);
+        node.next.next.next = new ListNode(4);
+        node.next.next.next.next = new ListNode(5);
 
-        ListNode() {
-        }
-
-        ListNode(int val) {
-            this.val = val;
-        }
-
-        ListNode(int val, ListNode next) {
-            this.val = val;
-            this.next = next;
-        }
+        NodeUtils.printNodes(node);
+        NodeUtils.printNodes(reverseList(node));
     }
 
-    public ListNode reverseList(ListNode head) {
+    public static ListNode reverseList(ListNode head) {
         ListNode before = null;
-        ListNode current = head;
+        ListNode cur = head;
         ListNode after = null;
 
-        while (current != null) {
-            after = current.next;
-            current.next = before;
-            before = current;
-            current = after;
+        while (cur != null) {
+            after = cur.next;
+            cur.next = before;
+            before = cur;
+            cur = after;
         }
-
         return before;
+    }
+
+    public static ListNode reverseListRecursive(ListNode head) {
+        return swap(null, head, null);
+    }
+
+    private static ListNode swap(ListNode before, ListNode cur, ListNode after) {
+        if (cur == null) {
+            return before;
+        }
+        after = cur.next;
+        cur.next = before;
+        before = cur;
+        cur = after;
+
+        return swap(before, cur, after);
     }
 
     public ListNode bestRuntime(ListNode head) {
