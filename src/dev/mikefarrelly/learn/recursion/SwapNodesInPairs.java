@@ -52,7 +52,7 @@ public class SwapNodesInPairs {
         System.out.println("============");
     }
 
-    private static ListNode swapPairs(ListNode head) {
+    private static ListNode swapPairsIterative(ListNode head) {
         if (head == null || head.next == null) {
             return head;
         }
@@ -67,6 +67,42 @@ public class SwapNodesInPairs {
         }
 
         return head;
+    }
+
+    private static ListNode swapPairs(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+
+        // Iterative solution
+//        while (point.next != null && point.next.next != null) {
+//            ListNode temp = point.next;
+//            ListNode temp2 = point.next.next;
+//            point.next = temp2;
+//            temp.next = temp2.next;
+//            temp2.next = temp;
+//            point = temp;
+//        }
+        recursiveSolution(dummy);
+
+        return dummy.next;
+    }
+
+    private static void recursiveSolution(ListNode head) {
+        if (head.next == null || head.next.next == null) {
+            return;
+        }
+        ListNode temp = head.next;
+        ListNode temp2 = head.next.next;
+        head.next = temp2;
+        temp.next = temp2.next;
+        temp2.next = temp;
+        head = temp;
+
+        recursiveSolution(head);
     }
 
     public static ListNode otherSolution(ListNode head) {
