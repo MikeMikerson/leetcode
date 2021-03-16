@@ -19,13 +19,14 @@ package dev.mikefarrelly.problems;
  */
 public class DefangingAnIPAddress {
     public String defangIPaddr(String address) {
-        return address.replace(".", "[.]");
+        // The following line isi simply a one liner that uses a regular expression
+        // return address.replace(".", "[.]");
         StringBuilder builder = new StringBuilder();
         for (char c : address.toCharArray()) {
             if (c == '.') {
                 builder.append("[.]");
             } else {
-                builder.append(Character.toString(c));
+                builder.append(c);
             }
         }
 
