@@ -29,10 +29,10 @@ import java.util.HashMap;
  */
 public class MajorityElement {
     public static void main(String[] args) {
-        System.out.println(majorityElements(new int[]{3, 3, 2, 3, 2}));
+        System.out.println(majorityElement(new int[]{3, 3, 2, 3, 2}));
     }
 
-    private static int majorityElements(int[] nums) {
+    private static int majorityElement(int[] nums) {
 //        int arrLength = nums.length;
 //        HashMap<Integer, Integer> hashMap = new HashMap<>();
 //
@@ -50,6 +50,7 @@ public class MajorityElement {
 //        }
 
         Arrays.sort(nums);
+        // nums[nums.length/2]
         int occurrences = 0;
         int currentNum = nums[0]; // 2
         int arrLength = nums.length; // 5
@@ -68,6 +69,12 @@ public class MajorityElement {
             }
         }
 
+
         return -1;
+    }
+
+    public static int sortSimpleAnswer(int[] nums) {
+        Arrays.sort(nums);
+        return nums[nums.length/2];
     }
 }
