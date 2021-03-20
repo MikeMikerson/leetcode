@@ -150,3 +150,159 @@ public class DesignHashMap {
         return prime;
     }
 }
+
+/**
+ * Fastest Runtime
+ */
+
+//class MyHashMap {
+//    private static final int SIZE = 100000;
+//    private Entry[] buckets;
+//
+//
+//    /** Initialize your data structure here. */
+//    public MyHashMap() {
+//        buckets = new Entry[SIZE];
+//    }
+//
+//    /** value will always be non-negative. */
+//    public void put(int key, int value) {
+//        int bucketIndex = key;
+//        Entry entry = buckets[bucketIndex];
+//        if (entry == null) {
+//            buckets[bucketIndex] = new Entry(key, value);
+//        } else {
+//            entry.value = value;
+//        }
+//    }
+//
+//    /** Returns the value to which the specified key is mapped, or -1 if this map contains no mapping for the key */
+//    public int get(int key) {
+//        int bucketIndex = key;
+//        Entry entry = buckets[bucketIndex];
+//        if (entry == null) {
+//            return -1;
+//        } else {
+//            return entry.value;
+//        }
+//    }
+//
+//    /** Removes the mapping of the specified value key if this map contains a mapping for the key */
+//    public void remove(int key) {
+//        int bucketIndex = key;
+//        Entry entry = buckets[bucketIndex];
+//        if (entry != null) {
+//            buckets[bucketIndex] = null;
+//        }
+//    }
+//
+//    private static class Entry {
+//        int key;
+//        int value;
+//        Entry next;
+//
+//        Entry(int key, int value) {
+//            this.key = key;
+//            this.value = value;
+//        }
+//    }
+//}
+
+/**
+ * Best Memory
+ */
+//class MyHashMap {
+//
+//    /** Initialize your data structure here. */
+//    private static final double LOAD_FACTOR = 0.75;
+//    int maxKeys = 40;
+//
+//    int numKeys = 0;
+//    List<LinkedList<Entry>> map;
+//    MyHashMap() {
+//        map = new ArrayList<>();
+//        for(int i = 0; i < maxKeys; i++) {
+//            map.add(new LinkedList<>());
+//        }
+//    }
+//
+//    /** value will always be non-negative. */
+//    void put(int key, int value) {
+//        for(Entry entry: map.get(key % maxKeys)) {
+//            if(entry.key == key) {
+//                entry.value = value;
+//                return;
+//            }
+//        }
+//
+//        numKeys++;
+//        rehash();
+//        map.get(key % maxKeys).addLast(new Entry(key, value));
+//    }
+//
+//    /** Returns the value to which the specified key is mapped, or -1 if this map contains no mapping for the key */
+//    int get(int key) {
+//        Entry entry = findEntry(key);
+//        return entry != null ? entry.value : -1;
+//    }
+//
+//    /** Removes the mapping of the specified value key if this map contains a mapping for the key */
+//    void remove(int key) {
+//        Iterator<Entry> it = findElement(key);
+//        if(it != null) {
+//            numKeys--;
+//            it.remove();
+//        }
+//    }
+//
+//    private Iterator<Entry> findElement(int key) {
+//        Iterator<Entry> it = map.get(key % maxKeys).iterator();
+//        while(it.hasNext()) {
+//            Entry entry = it.next();
+//            if(entry.key == key) {
+//                return it;
+//            }
+//        }
+//        return null;
+//    }
+//
+//    private Entry findEntry(int key) {
+//        Iterator<Entry> it = map.get(key % maxKeys).iterator();
+//        while(it.hasNext()) {
+//            Entry entry = it.next();
+//            if(entry.key == key) {
+//                return entry;
+//            }
+//        }
+//        return null;
+//    }
+//
+//    private void rehash() {
+//        if((double) numKeys / maxKeys >= LOAD_FACTOR) {
+//            List<LinkedList<Entry>> newList = new ArrayList<>();
+//            for(int i = 0; i < maxKeys * 2; i++) {
+//                newList.add(new LinkedList<>());
+//            }
+//
+//            List<LinkedList<Entry>> tempList = map;
+//            numKeys = 0;
+//            map = newList;
+//            maxKeys *= 2;
+//            for(int i = 0; i < maxKeys / 2; i++) {
+//                for(Entry entry: tempList.get(i)) {
+//                    put(entry.key, entry.value);
+//                }
+//            }
+//        }
+//    }
+//
+//}
+//
+//class Entry {
+//    public int key;
+//    public int value;
+//    public Entry(int key, int value) {
+//        this.key = key;
+//        this.value = value;
+//    }
+//}
