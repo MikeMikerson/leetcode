@@ -48,14 +48,24 @@ public class DesignHashMap {
         DesignHashMap map = new DesignHashMap();
         map.put(1, 2);
         map.put(2, 2);
-        System.out.println(map);
+        map.put(3, 2);
+        map.put(4, 2);
+        map.put(5, 2);
+        map.put(6, 2);
+        map.put(7, 2);
+        map.put(8, 2);
+        map.put(7, 3);
+        System.out.println(map.get(7));
+        map.remove(7);
+        System.out.println(map.get(7));
+        map.remove(7);
     }
 
     private LinkedList<int[]>[] hashMap;
 
     @SuppressWarnings("unchecked")
     public DesignHashMap() {
-        this.hashMap = new LinkedList[100];
+        this.hashMap = new LinkedList[4];
     }
 
     /**
@@ -92,14 +102,46 @@ public class DesignHashMap {
      * Returns the value to which the specified key is mapped, or -1 if this map contains no mapping for the key
      */
     public int get(int key) {
-        return 0;
+        int hashedKey = hash(key);
+        LinkedList<int[]> list = hashMap[hashedKey];
+
+        // If the list is null that means there's nothing in this position so we can return -1
+        if (list == null) {
+            return -1;
+        }
+
+        // If it's not null, we need to iterate through the list and check that the key exists
+        // This is because just because the list is not null doesn't mean the list will contain the key because
+        // there can be more than one element in a given position
+        for (int[] arr : list) {
+            if (arr[0] == key) {
+                return arr[1];
+            }
+        }
+
+        // If it reaches this point that means the key doesn't exist
+        return -1;
     }
 
     /**
      * Removes the mapping of the specified value key if this map contains a mapping for the key
      */
     public void remove(int key) {
+        int hashedKey = hash(key);
+        LinkedList<int[]> list = hashMap[hashedKey];
 
+        if (list == null) {
+            return;
+        }
+
+        int i = 0;
+        for (int[] arr : list) {
+            if (arr[0] == key) {
+                list.remove(i);
+                return;
+            }
+            i++;
+        }
     }
 
     public int hash(int key) {
