@@ -31,13 +31,4 @@ public class FindPivotIndex {
 
         return -1;
     }
-
-    public int pivotIndex(int[] nums) {
-        // [1,7,3,6,5,6]
-        /*
-         * total = 28
-         *
-         */
-        return -1;
-    }
 }
