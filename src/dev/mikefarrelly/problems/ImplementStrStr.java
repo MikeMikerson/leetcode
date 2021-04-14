@@ -5,6 +5,7 @@ package dev.mikefarrelly.problems;
  */
 public class ImplementStrStr {
     public static void main(String[] args) {
+        int[] nums = new int[2];
     }
 
     public static int strStr(String haystack, String needle) {
