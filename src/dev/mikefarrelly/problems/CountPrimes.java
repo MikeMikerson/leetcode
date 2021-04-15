@@ -151,4 +151,3 @@ public class CountPrimes {
         return c;
     }
 }
-}
