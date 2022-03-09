@@ -21,6 +21,7 @@ public class FindAllNumbersDisappearedInAnArray {
         }
 
         for (int i = 0; i < nums.length; i++) {
+            System.out.println(nums[i]);
             if (nums[i] > 0) {
                 disappearedNumbers.add(i+1);
             }

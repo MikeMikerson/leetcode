@@ -27,15 +27,43 @@ import java.util.*;
  */
 public class BinaryTreeLevelOrderTraversal {
     public static void main(String[] args) {
-        TreeNode root = new TreeNode(3);
-        root.left = new TreeNode(9);
-        root.left.left = new TreeNode(1);
-        root.left.right = new TreeNode(10);
-        root.right = new TreeNode(20);
-        root.right.left = new TreeNode(18);
-        root.right.right = new TreeNode(19);
+//        TreeNode root = new TreeNode(3);
+//        root.left = new TreeNode(9);
+//        root.left.left = new TreeNode(1);
+//        root.left.right = new TreeNode(10);
+//        root.right = new TreeNode(20);
+//        root.right.left = new TreeNode(18);
+//        root.right.right = new TreeNode(19);
+//
+//        System.out.println(levelOrder(root));
+        List<Integer> list1 = new ArrayList<>();
+        list1.add(11);
+        list1.add(2);
+        list1.add(4);
+        System.out.println(reverseArray(list1));
+    }
 
-        System.out.println(levelOrder(root));
+    public static List<Integer> reverseArray(List<Integer> a) {
+        if (a == null || a.size() < 1) return a;
+
+        int listSize = a.size();
+        // List<Integer> result = new ArrayList<>();
+        // for (int i = listSize-1; i >= 0; i--) {
+        //     result.add(a.get(i));
+        // }
+
+        // return result;
+        for (int i = 0, j = listSize-1; i < j; i++, j--) {
+            // 1, 2, 3, 4
+            //    i  j
+            // 4, 2, 3, 1
+            // 4, 3, 2, 1
+            int temp = a.get(i);
+            a.set(a.get(i), a.get(j));
+            a.set(a.get(j), temp);
+        }
+
+        return a;
     }
 
     public static List<List<Integer>> levelOrder(TreeNode root) {
